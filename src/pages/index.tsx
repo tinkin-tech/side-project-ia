@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 
 import { robotEmotions } from '../enums/robotEmotions'
 import { customFetch } from '../helpers/customFetch'
-
-const OPENAI_API_KEY = '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'
+import { loadersEnum } from '../enums/loaders'
 
 export interface IClassifyResponse {
   completion: string
@@ -22,9 +22,10 @@ export interface ISelectedExample {
 
 const Home = () => {
   const [textToAnalize, setTextToAnalize] = useState('')
-  const [analizedTextEmotion, setAnalizedTextEmotion] =
-    useState<string>('surprise')
+  const [analizedTextEmotion, setAnalizedTextEmotion] = useState<string>('')
   const [robotEmotion, setEmotion] = useState(robotEmotions.neutral)
+  const [isLoading, setIsLoading] = useState(false)
+  const hasAnalizedRef = useRef(false)
 
   const analizeMood = useCallback(async () => {
     const body = {
@@ -38,13 +39,16 @@ const Home = () => {
       search_model: 'ada',
       model: 'curie',
     }
-
+    setAnalizedTextEmotion('')
+    setIsLoading(true)
     const response = await customFetch<IClassifyResponse>({
       endpoint: 'classifications',
       method: 'POST',
       data: body,
-      token: OPENAI_API_KEY,
+      token: process.env.openAIKey,
     })
+    setIsLoading(false)
+    hasAnalizedRef.current = true
 
     setAnalizedTextEmotion(response.data?.label.toLowerCase() || 'neutral')
   }, [setAnalizedTextEmotion, textToAnalize])
@@ -60,7 +64,7 @@ const Home = () => {
       neutral: robotEmotions.neutral,
       surprise: robotEmotions.surprise,
     }
-    setEmotion(analizedMapImage[analizedTextEmotion])
+    setEmotion(analizedMapImage[analizedTextEmotion] || robotEmotions.surprise)
   }, [analizedTextEmotion])
 
   return (
@@ -77,13 +81,16 @@ const Home = () => {
       </div>
       <div className="max-w-xs md:max-w-7xl mx-auto py-16 bg-dark rounded-md grid grid-cols-2 gap-3">
         <div className="ml-32">
-          {analizedTextEmotion !== 'surprise' ? (
-            <div className="resize-none bg-blue-500 rounded-lg ml-56 text-white text-center -mb-8 border-0">
-              {`You mood is ${analizedTextEmotion} !!`}
-            </div>
-          ) : (
-            ''
-          )}
+          <div className="resize-none bg-blue-500 rounded-lg ml-56 text-white text-center -mb-8 border-0">
+            {!analizedTextEmotion && !isLoading ? (
+              'Please write some text to analize'
+            ) : isLoading ? (
+              <Image src={loadersEnum.ellipsis} width={48} height={48} />
+            ) : (
+              `You mood is ${analizedTextEmotion} !!`
+            )}
+          </div>
+
           <img className="object-none -mb-56" src={robotEmotion} alt="robot" />
         </div>
         <div className="flex flex-col mr-4">
@@ -122,11 +129,21 @@ const Home = () => {
               value={textToAnalize}
             />
           </div>
-          <div className="mt-2 flex justify-end" onClick={analizeMood}>
+          <button
+            className="mt-2 flex justify-end"
+            onClick={analizeMood}
+            disabled={isLoading}
+          >
             <a className="border-blue-500 items-center text-sm font-medium bg-blue-500 text-white rounded cursor-pointer p-2">
-              Analizar mood
+              {isLoading ? (
+                <Image src={loadersEnum.ellipsis} width={48} height={30} />
+              ) : hasAnalizedRef.current ? (
+                'Analizar nuevamente'
+              ) : (
+                'Analizar mood'
+              )}
             </a>
-          </div>
+          </button>
         </div>
       </div>
     </div>
