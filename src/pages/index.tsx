@@ -1,20 +1,20 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
+
+import { robotEmotions } from '../enums/robotEmotions'
 import { customFetch } from '../helpers/customFetch'
-// import { OpenAI } from 'openai'
 
 const OPENAI_API_KEY = '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'
-// const openai = new OpenAI(OPENAI_API_KEY)
 
-export interface ClassifyResponse {
+export interface IClassifyResponse {
   completion: string
   label: string
   model: string
   object: string
   search_model: string
-  selected_examples: SelectedExample[]
+  selected_examples: ISelectedExample[]
 }
 
-export interface SelectedExample {
+export interface ISelectedExample {
   document: number
   label: string
   text: string
@@ -22,24 +22,11 @@ export interface SelectedExample {
 
 const Home = () => {
   const [textToAnalize, setTextToAnalize] = useState('')
-  const [analizedText, setAnalizedText] = useState('')
+  const [analizedTextEmotion, setAnalizedTextEmotion] =
+    useState<string>('neutral')
+  const [robotEmotion, setEmotion] = useState(robotEmotions.neutral)
 
   const analizeMood = useCallback(async () => {
-    // const gptResponse = await openai.classify({
-    //   examples: [
-    //     ['A happy moment', 'Positive'],
-    //     ['I am sad.', 'Negative'],
-    //     ['I am feeling awesome', 'Positive'],
-    //   ],
-    //   labels: ['Positive', 'Negative', 'Neutral'],
-    //   query: textToAnalize,
-    //   search_model: 'ada',
-    //   model: 'curie',
-    // })
-
-    // console.log(gptResponse.completion)
-    // setAnalizedText(gptResponse.completion)
-
     const body = {
       examples: [
         ['A happy moment', 'Positive'],
@@ -52,19 +39,28 @@ const Home = () => {
       model: 'curie',
     }
 
-    const response = await customFetch<ClassifyResponse>({
+    const response = await customFetch<IClassifyResponse>({
       endpoint: 'classifications',
       method: 'POST',
       data: body,
       token: OPENAI_API_KEY,
     })
 
-    setAnalizedText(response.data?.label || '')
-  }, [setAnalizedText, textToAnalize])
+    setAnalizedTextEmotion(response.data?.label.toLowerCase() || 'neutral')
+  }, [setAnalizedTextEmotion, textToAnalize])
 
   const textToAnalizeChange = (event: any) => {
     setTextToAnalize(event.target.value)
   }
+
+  useEffect(() => {
+    const analizedMapImage: Record<string, robotEmotions> = {
+      negative: robotEmotions.negative,
+      positive: robotEmotions.positive,
+      neutral: robotEmotions.neutral,
+    }
+    setEmotion(analizedMapImage[analizedTextEmotion])
+  }, [analizedTextEmotion])
 
   return (
     <div>
@@ -81,13 +77,9 @@ const Home = () => {
       <div className="max-w-xs md:max-w-7xl mx-auto py-16 bg-dark rounded-md grid grid-cols-2 gap-3">
         <div className="ml-32">
           <div className="resize-none bg-blue-500 rounded-lg ml-56 text-white text-center -mb-8 border-0">
-            {analizedText}
+            {`You mood is ${analizedTextEmotion} !!`}
           </div>
-          <img
-            className="object-none -mb-56"
-            src="/img/robot.svg"
-            alt="robot"
-          />
+          <img className="object-none -mb-56" src={robotEmotion} alt="robot" />
         </div>
         <div className="flex flex-col mr-4">
           <div className="w-full bg-white py-6 rounded-md">
