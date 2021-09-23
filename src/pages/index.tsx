@@ -23,7 +23,7 @@ export interface ISelectedExample {
 const Home = () => {
   const [textToAnalize, setTextToAnalize] = useState('')
   const [analizedTextEmotion, setAnalizedTextEmotion] =
-    useState<string>('neutral')
+    useState<string>('surprise')
   const [robotEmotion, setEmotion] = useState(robotEmotions.neutral)
 
   const analizeMood = useCallback(async () => {
@@ -58,6 +58,7 @@ const Home = () => {
       negative: robotEmotions.negative,
       positive: robotEmotions.positive,
       neutral: robotEmotions.neutral,
+      surprise: robotEmotions.surprise,
     }
     setEmotion(analizedMapImage[analizedTextEmotion])
   }, [analizedTextEmotion])
@@ -76,9 +77,13 @@ const Home = () => {
       </div>
       <div className="max-w-xs md:max-w-7xl mx-auto py-16 bg-dark rounded-md grid grid-cols-2 gap-3">
         <div className="ml-32">
-          <div className="resize-none bg-blue-500 rounded-lg ml-56 text-white text-center -mb-8 border-0">
-            {`You mood is ${analizedTextEmotion} !!`}
-          </div>
+          {analizedTextEmotion !== 'surprise' ? (
+            <div className="resize-none bg-blue-500 rounded-lg ml-56 text-white text-center -mb-8 border-0">
+              {`You mood is ${analizedTextEmotion} !!`}
+            </div>
+          ) : (
+            ''
+          )}
           <img className="object-none -mb-56" src={robotEmotion} alt="robot" />
         </div>
         <div className="flex flex-col mr-4">
