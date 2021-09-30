@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { robotEmotions } from '../enums/robotEmotions'
 import { customFetch } from '../helpers/customFetch'
 import { loadersEnum } from '../enums/loaders'
-
+import { setupSentiment } from '../tensor/sentimentPredictor'
 export interface IClassifyResponse {
   completion: string
   label: string
@@ -26,6 +26,9 @@ const Home = () => {
   const [robotEmotion, setEmotion] = useState(robotEmotions.neutral)
   const [isLoading, setIsLoading] = useState(false)
   const hasAnalizedRef = useRef(false)
+  const [iaHandler, setIaHandler] = useState<'tensorflow' | 'openai'>(
+    'tensorflow'
+  )
 
   const analizeMood = useCallback(async () => {
     const body = {
@@ -41,17 +44,24 @@ const Home = () => {
     }
     setAnalizedTextEmotion('')
     setIsLoading(true)
-    const response = await customFetch<IClassifyResponse>({
-      endpoint: 'classifications',
-      method: 'POST',
-      data: body,
-      token: process.env.openAIKey,
-    })
+    let response = undefined
+    if (iaHandler === 'openai') {
+      const openAIresponse = await customFetch<IClassifyResponse>({
+        endpoint: 'classifications',
+        method: 'POST',
+        data: body,
+        token: process.env.openAIKey,
+      })
+      response = openAIresponse.data?.label.toLowerCase() || ''
+    } else {
+      response = await setupSentiment(textToAnalize)
+    }
+
     setIsLoading(false)
     hasAnalizedRef.current = true
 
-    setAnalizedTextEmotion(response.data?.label.toLowerCase() || 'neutral')
-  }, [setAnalizedTextEmotion, textToAnalize])
+    setAnalizedTextEmotion(response || 'neutral')
+  }, [setAnalizedTextEmotion, textToAnalize, iaHandler])
 
   const textToAnalizeChange = (event: any) => {
     setTextToAnalize(event.target.value)
@@ -103,8 +113,9 @@ const Home = () => {
                 type="radio"
                 className="form-radio text-dark h-5 w-5"
                 name="radio"
-                value="1"
-                checked
+                value="tensorflow"
+                onChange={() => setIaHandler('tensorflow')}
+                checked={iaHandler === 'tensorflow'}
               />
               <span className="ml-2 mr-8">TensorFlow</span>
             </label>
@@ -113,7 +124,9 @@ const Home = () => {
                 type="radio"
                 className="form-radio text-dark h-5 w-5"
                 name="radio"
-                value="2"
+                onChange={() => setIaHandler('openai')}
+                value="openai"
+                checked={iaHandler === 'openai'}
               />
               <span className="ml-2">OpenIA</span>
             </label>
