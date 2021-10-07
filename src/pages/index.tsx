@@ -61,7 +61,6 @@ const Home = () => {
           url: Urls.OpenAiServerless,
           method: 'POST',
           data: body,
-          token: process.env.openAIKey,
         })
         response = openAIresponse.data?.label.toLowerCase() || ''
       } else {
