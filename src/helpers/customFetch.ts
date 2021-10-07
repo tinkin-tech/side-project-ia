@@ -22,8 +22,6 @@ export const customFetch = async <T = any>(
 
   const url = `${baseUrl}/${endpoint}`
 
-  console.log(url)
-
   const init = {
     method,
   } as RequestInit
