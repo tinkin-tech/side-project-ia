@@ -1,10 +1,18 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import Image from 'next/image'
 
 import { robotEmotions } from '../enums/robotEmotions'
 import { customFetch } from '../helpers/customFetch'
 import { loadersEnum } from '../enums/loaders'
 import { setupSentiment } from '../tensor/sentimentPredictor'
+import { Urls } from '../constants/urls'
+import { NotificationContext } from '../providers/NotificationProvider'
 export interface IClassifyResponse {
   completion: string
   label: string
@@ -30,6 +38,8 @@ const Home = () => {
     'tensorflow'
   )
 
+  const { showMessage } = useContext(NotificationContext)
+
   const analizeMood = useCallback(async () => {
     const body = {
       examples: [
@@ -45,22 +55,27 @@ const Home = () => {
     setAnalizedTextEmotion('')
     setIsLoading(true)
     let response = undefined
-    if (iaHandler === 'openai') {
-      const openAIresponse = await customFetch<IClassifyResponse>({
-        endpoint: 'classifications',
-        method: 'POST',
-        data: body,
-        token: process.env.openAIKey,
+    try {
+      if (iaHandler === 'openai') {
+        const openAIresponse = await customFetch<IClassifyResponse>({
+          url: Urls.OpenAiServerless,
+          method: 'POST',
+          data: body,
+        })
+        response = openAIresponse.data?.label.toLowerCase() || ''
+      } else {
+        response = await setupSentiment(textToAnalize)
+      }
+      setAnalizedTextEmotion(response || 'neutral')
+    } catch (error) {
+      showMessage({
+        severity: 'error',
+        message: 'Ha ocurrido un error al procesar la petición',
       })
-      response = openAIresponse.data?.label.toLowerCase() || ''
-    } else {
-      response = await setupSentiment(textToAnalize)
     }
 
     setIsLoading(false)
     hasAnalizedRef.current = true
-
-    setAnalizedTextEmotion(response || 'neutral')
   }, [setAnalizedTextEmotion, textToAnalize, iaHandler])
 
   const textToAnalizeChange = (event: any) => {
@@ -137,7 +152,7 @@ const Home = () => {
               name="text-area"
               id="text"
               rows={9}
-              placeholder="Ingresa el texto a ser analizado"
+              placeholder="Ingresa el texto a ser analizado (in english please)"
               onChange={textToAnalizeChange}
               value={textToAnalize}
             />

@@ -4,13 +4,14 @@ import 'tailwindcss/tailwind.css'
 
 import Navbar from '../components/Navbar'
 import Header from '../components/Header'
+import { NotificationProvider } from '../providers/NotificationProvider'
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const MyApp = ({ Component, pageProps }: AppProps) => (
-  <>
+  <NotificationProvider>
     <Header />
     <Navbar />
     <Component {...pageProps} />
-  </>
+  </NotificationProvider>
 )
 export default MyApp

@@ -1,5 +1,3 @@
-const baseUrl = 'https://api.openai.com/v1'
-
 export type HttpMethods = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 
 export type HttpResponse<T = any> = {
@@ -8,7 +6,7 @@ export type HttpResponse<T = any> = {
 }
 
 export type FetchOptions = {
-  endpoint: string
+  url: string
   data?: Record<string, unknown>
   method: HttpMethods
   token?: string
@@ -18,9 +16,7 @@ export type FetchOptions = {
 export const customFetch = async <T = any>(
   options: FetchOptions
 ): Promise<HttpResponse<T>> => {
-  const { endpoint, method, data, token, throwError } = options
-
-  const url = `${baseUrl}/${endpoint}`
+  const { url, method, data, token, throwError } = options
 
   const init = {
     method,
