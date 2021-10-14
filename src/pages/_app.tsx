@@ -1,6 +1,7 @@
 import React from 'react'
 import type { AppProps } from 'next/app'
 import 'tailwindcss/tailwind.css'
+import './../css/index.css'
 
 import Navbar from '../components/Navbar'
 import Header from '../components/Header'

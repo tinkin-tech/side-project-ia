@@ -94,7 +94,7 @@ const Home = () => {
 
   return (
     <div>
-      <div className="max-w-xs md:max-w-2xl mx-auto py-16">
+      <div className="max-w-xs md:max-w-2xl mx-auto py-16 bg-points-pattern">
         <div className="text-center font-normal font-bold text-gray-900 text-5xl">
           Entiende el mood de tus usuarios gracias a <br /> Inteligencia
           Artificial
@@ -104,19 +104,19 @@ const Home = () => {
           continuación y te diremos como se siente tu usuario*
         </div>
       </div>
-      <div className="max-w-xs md:max-w-7xl mx-auto py-16 bg-dark rounded-md grid grid-cols-2 gap-3">
-        <div className="ml-32">
-          <div className="resize-none bg-blue-500 rounded-lg ml-56 text-white text-center -mb-8 border-0">
+      <div className="max-w-xs md:max-w-7xl mx-auto pt-16 bg-dark rounded-md grid grid-cols-2 gap-3">
+        <div className="relative ml-32">
+          <div className="abosolute bottom-0 resize-none bg-blue-500 rounded-lg ml-56 text-white text-center border-0 p-7">
             {!analizedTextEmotion && !isLoading ? (
               'Please write some text to analize'
             ) : isLoading ? (
-              <Image src={loadersEnum.ellipsis} width={48} height={48} />
+              <Image src={loadersEnum.ellipsis} width={48} height={28} />
             ) : (
               `You mood is ${analizedTextEmotion} !!`
             )}
           </div>
 
-          <img className="object-none -mb-56" src={robotEmotion} alt="robot" />
+          <img className="object-none" src={robotEmotion} alt="robot" />
         </div>
         <div className="flex flex-col mr-4">
           <div className="w-full bg-white py-6 rounded-md">

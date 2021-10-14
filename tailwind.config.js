@@ -36,7 +36,11 @@ module.exports = {
       rose: color.rose,
       dark: '#181818',
     },
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'points-pattern': "url('/img/backgrounds/points.svg')",
+      },
+    },
   },
   variants: {
     extend: {},

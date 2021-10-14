@@ -1,0 +1,16 @@
+@font-face {
+    font-family: 'PlusJakarta';
+    font-style: normal;
+    font-weight: 400;
+    src: local('PlusJakarta'), url('/fonts/PlusJakartaSans-Regular.woff') format('woff');
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'PlusJakarta',-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  background-color: var(--clear);
+}
+
