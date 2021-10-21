@@ -28,19 +28,19 @@ const Navbar = () => {
             <div className="lg:ml-5 lg:flex lg:space-x-7">
               <a
                 onClick={() => goToPage(Routes.about)}
-                className="border-blue-500 text-gray-900 items-center px-1 pt-1 border-b-2 text-sm font-medium cursor-pointer"
+                className="border-blue-500 text-gray-900 items-center px-1 pt-1 border-b-2 text-base font-semibold cursor-pointer"
               >
                 About
               </a>
               <a
                 onClick={() => goToPage(Routes.changelog)}
-                className="border-blue-500 text-gray-900 items-center px-1 pt-1 text-sm font-medium cursor-pointer"
+                className="border-blue-500 text-gray-900 items-center px-1 pt-1 text-base font-semibold cursor-pointer"
               >
                 Changelog
               </a>
               <a
                 onClick={() => goToPage(Routes.howWorks)}
-                className="border-blue-500 items-center px-4 py-1.5 text-sm font-semibold	bg-gray-900 text-white rounded-lg cursor-pointer"
+                className="border-blue-500 items-center px-4 py-1.5 text-base font-semibold	bg-gray-900 text-white rounded-lg cursor-pointer"
               >
                 ¿Cómo funciona?
               </a>
