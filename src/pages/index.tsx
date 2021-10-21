@@ -118,33 +118,37 @@ const Home = () => {
 
           <img className="object-none" src={robotEmotion} alt="robot" />
         </div>
-        <div className="flex flex-col mr-4">
-          <div className="w-full bg-white py-6 rounded-md">
-            <span className="font-bold ml-4 mr-8">
-              Elige el servicio de IA:
-            </span>
-            <label className="inline-flex items-center">
-              <input
-                type="radio"
-                className="form-radio text-dark h-5 w-5"
-                name="radio"
-                value="tensorflow"
-                onChange={() => setIaHandler('tensorflow')}
-                checked={iaHandler === 'tensorflow'}
-              />
-              <span className="ml-2 mr-8">TensorFlow</span>
-            </label>
-            <label className="inline-flex items-center">
-              <input
-                type="radio"
-                className="form-radio text-dark h-5 w-5"
-                name="radio"
-                onChange={() => setIaHandler('openai')}
-                value="openai"
-                checked={iaHandler === 'openai'}
-              />
-              <span className="ml-2">OpenIA</span>
-            </label>
+        <div className="flex flex-col mr-4 h-12">
+          <div className="w-full bg-white border-2 border-white rounded-lg flex flex-row">
+            <div className="pl-9 py-4">
+              <span className="font-bold ml-4 mr-8">
+                Elige el servicio de IA:
+              </span>
+            </div>
+            <div className="bg-dark text-white py-4 pl-5 rounded-tr-lg rounded-br-lg flex-grow">
+              <label className="inline-flex items-center">
+                <input
+                  type="radio"
+                  className="form-radio h-5 w-5"
+                  name="radio"
+                  value="tensorflow"
+                  onChange={() => setIaHandler('tensorflow')}
+                  checked={iaHandler === 'tensorflow'}
+                />
+                <span className="ml-2 mr-8">TensorFlow</span>
+              </label>
+              <label className="inline-flex items-center">
+                <input
+                  type="radio"
+                  className="form-radio text-dark h-5 w-5"
+                  name="radio"
+                  onChange={() => setIaHandler('openai')}
+                  value="openai"
+                  checked={iaHandler === 'openai'}
+                />
+                <span className="ml-2">OpenIA</span>
+              </label>
+            </div>
           </div>
           <div className="mt-7">
             <textarea

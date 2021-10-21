@@ -9,7 +9,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="bg-white">
+    <nav className="bg-niceGray">
       <div className="max-w-7xl mx-auto px-2 pt-10">
         <div className="flex justify-between h-16">
           <div className="flex px-2 lg:px-0">
@@ -40,7 +40,7 @@ const Navbar = () => {
               </a>
               <a
                 onClick={() => goToPage(Routes.howWorks)}
-                className="border-blue-500 items-center px-1 pt-1 text-sm font-medium bg-gray-900 text-white rounded cursor-pointer"
+                className="border-blue-500 items-center px-4 py-1.5 text-sm font-semibold	bg-gray-900 text-white rounded-lg cursor-pointer"
               >
                 ¿Cómo funciona?
               </a>
