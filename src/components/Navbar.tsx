@@ -28,19 +28,27 @@ const Navbar = () => {
             <div className="lg:ml-5 lg:flex lg:space-x-7">
               <a
                 onClick={() => goToPage(Routes.about)}
-                className="border-blue-500 text-gray-900 items-center px-1 pt-1 border-b-2 text-base font-semibold cursor-pointer"
+                className={`border-blue-500 text-gray-900 cursor-pointer items-center px-1 pt-1 text-base font-semibold ${
+                  router.pathname === Routes.about ? 'border-b-2 ' : ''
+                } `}
               >
                 About
               </a>
               <a
                 onClick={() => goToPage(Routes.changelog)}
-                className="border-blue-500 text-gray-900 items-center px-1 pt-1 text-base font-semibold cursor-pointer"
+                className={`border-blue-500 text-gray-900 items-center px-1 pt-1 text-base font-semibold cursor-pointer ${
+                  router.pathname === Routes.changelog ? 'border-b-2 ' : ''
+                } `}
               >
                 Changelog
               </a>
               <a
                 onClick={() => goToPage(Routes.howWorks)}
-                className="border-blue-500 items-center px-4 py-1.5 text-base font-semibold	bg-gray-900 text-white rounded-lg cursor-pointer"
+                className={`border-blue-500 text-gray-900 items-center px-1 pt-1  text-base font-semibold cursor-pointer ${
+                  router.pathname === Routes.howWorks
+                    ? 'border-b-2 '
+                    : 'border-blue-500 items-center px-4 py-1.5 text-base font-semibold	bg-gray-900 text-white rounded-lg cursor-pointer'
+                } `}
               >
                 ¿Cómo funciona?
               </a>
