@@ -1,16 +1,16 @@
 import React from 'react'
 import { useRouter } from 'next/router'
+
 import { Routes } from '../constants/routes'
 
-const Navbar = () => {
+export const Footer = () => {
   const router = useRouter()
   const goToPage = (route: string): void => {
     router.push(route)
   }
-
   return (
-    <nav className="bg-niceGray">
-      <div className="max-w-7xl mx-auto px-2 pt-10">
+    <footer className="relative border-t border-gray-400 mt-12">
+      <div className="max-w-7xl mx-auto px-2">
         <div className="flex justify-between h-16">
           <div className="flex px-2 lg:px-0">
             <div
@@ -19,7 +19,7 @@ const Navbar = () => {
             >
               <img
                 className="hidden lg:block h-8 w-auto cursor-pointer"
-                src="/img/logo-1.svg"
+                src="/img/logo-2.svg"
                 alt="Workflow"
               />
             </div>
@@ -28,7 +28,7 @@ const Navbar = () => {
             <div className="lg:ml-5 lg:flex lg:space-x-7">
               <a
                 onClick={() => goToPage(Routes.about)}
-                className={`border-blue-500 text-gray-900 cursor-pointer items-center px-1 pt-1 text-base font-semibold ${
+                className={`border-blue-500 text-gray-500 cursor-pointer items-center px-1 pt-1 text-base font-medium ${
                   router.pathname === Routes.about ? 'border-b-2 ' : ''
                 } `}
               >
@@ -36,7 +36,7 @@ const Navbar = () => {
               </a>
               <a
                 onClick={() => goToPage(Routes.changelog)}
-                className={`border-blue-500 text-gray-900 items-center px-1 pt-1 text-base font-semibold cursor-pointer ${
+                className={`border-blue-500 text-gray-500 items-center px-1 pt-1 text-base font-medium cursor-pointer ${
                   router.pathname === Routes.changelog ? 'border-b-2 ' : ''
                 } `}
               >
@@ -44,10 +44,8 @@ const Navbar = () => {
               </a>
               <a
                 onClick={() => goToPage(Routes.howWorks)}
-                className={`border-blue-500 text-gray-900 items-center px-1 pt-1  text-base font-semibold cursor-pointer ${
-                  router.pathname === Routes.howWorks
-                    ? 'border-b-2 '
-                    : 'border-blue-500 items-center px-4 py-1.5 text-base font-semibold	bg-gray-900 text-white rounded-lg cursor-pointer'
+                className={`border-blue-500 text-gray-500 items-center px-1 pt-1 text-base font-medium cursor-pointer ${
+                  router.pathname === Routes.howWorks ? 'border-b-2 ' : ''
                 } `}
               >
                 ¿Cómo funciona?
@@ -56,8 +54,6 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-    </nav>
+    </footer>
   )
 }
-
-export default Navbar

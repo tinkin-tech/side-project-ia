@@ -11,6 +11,8 @@ module.exports = {
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
+      niceGray: '#FAFAFA',
+      specialGray: '#BFBFBF',
       coolGray: color.coolGray,
       gray: color.gray,
       white: color.white,
@@ -36,7 +38,11 @@ module.exports = {
       rose: color.rose,
       dark: '#181818',
     },
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'points-pattern': "url('/img/backgrounds/points.svg')",
+      },
+    },
   },
   variants: {
     extend: {},
