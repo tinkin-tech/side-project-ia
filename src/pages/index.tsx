@@ -93,7 +93,7 @@ const Home = () => {
   }, [analizedTextEmotion])
 
   return (
-    <div>
+    <div className="mb-20">
       <div className="max-w-xs md:max-w-2xl mx-auto py-16 bg-points-pattern">
         <div className="text-center font-medium	font-bold text-gray-900 text-5xl">
           Entiende el mood de tus usuarios gracias a <br /> Inteligencia
@@ -129,7 +129,7 @@ const Home = () => {
               <label className="inline-flex items-center">
                 <input
                   type="radio"
-                  className="form-radio h-5 w-5"
+                  className="form-radio h-5 w-5 text-gray-600"
                   name="radio"
                   value="tensorflow"
                   onChange={() => setIaHandler('tensorflow')}
@@ -140,7 +140,7 @@ const Home = () => {
               <label className="inline-flex items-center">
                 <input
                   type="radio"
-                  className="form-radio text-dark h-5 w-5"
+                  className="form-radio h-5 w-5 text-gray-600"
                   name="radio"
                   onChange={() => setIaHandler('openai')}
                   value="openai"
