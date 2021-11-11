@@ -1,6 +1,6 @@
 export enum Routes {
   about = '/about',
   changelog = '/changelog',
-  howWorks = '/how-works',
+  howWorks = '/how-to-works',
   home = '/',
 }
